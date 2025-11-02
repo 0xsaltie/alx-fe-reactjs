@@ -1,3 +1,7 @@
+import React from 'react';
+import Header from './Header';
+import MainContent from './MainContent';
+import Footer from './Footer';
 import WelcomeMessage from './components/WelcomeMessage'
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
@@ -33,7 +37,18 @@ function App() {
   )
 }
 
-const WelcomeMessage = () => {
+function App() {
+  return (
+    <div>
+      <Header />
+      <MainContent />
+      <Footer />
+      <WelcomeMessage />
+    </div>
+  );
+}
+
+/**const WelcomeMessage = () => {
   return (
     <div className="p-6 bg-white rounded-xl shadow-2xl text-center transition duration-300 hover:shadow-3xl">
       <h1 className="text-3xl sm:text-4xl font-extrabold text-blue-600 mb-4 transition transform hover:scale-105">
@@ -60,12 +75,12 @@ const App = () => {
           </p>
         </header>
 
-        {/* Integration of the WelcomeMessage component */}
+        {/* Integration of the WelcomeMessage component *
         <WelcomeMessage />
       </div>
     </div>
   );
 };
-
+**/
 
 export default App
