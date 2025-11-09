@@ -1,102 +1,53 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from './Header';
 import MainContent from './MainContent';
 import Footer from './Footer';
-import WelcomeMessage from './components/WelcomeMessage'
+import WelcomeMessage from './components/WelcomeMessage';
 import UserProfile from './components/UserProfile';
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import reactLogo from './assets/react.svg';
+import viteLogo from '/vite.svg';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
+    <div className="min-h-screen bg-gray-50 p-8 text-center">
+      {/* Logo Section */}
+      <div className="flex justify-center items-center space-x-6 mb-8">
+        <a href="https://vite.dev" target="_blank" rel="noreferrer">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
-        <a href="https://react.dev" target="_blank">
+        <a href="https://react.dev" target="_blank" rel="noreferrer">
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+
+      <h1 className="text-4xl font-bold mb-6">Vite + React + ALX</h1>
+
+      {/* Counter Section */}
+      <div className="card mb-6">
+        <button
+          onClick={() => setCount((count) => count + 1)}
+          className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition"
+        >
+          Count is {count}
         </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
+        <p className="mt-2 text-gray-600">
+          Edit <code>src/App.jsx</code> and save to test HMR.
         </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
 
-function App() {
-  return (
-    <div>
-      <Header />
-      <MainContent />
-      <Footer />
-      <WelcomeMessage />
-    </div>
-  );
-}
-
-
-function App() {
-  return (
-    <div>
-      <h1>User Profile Example</h1>
-      <UserProfile
-        name="Alice"
-        age="25"
-        bio="Loves hiking and photography."
-      />
-    </div>
-  );
-}
-
-
-/**const WelcomeMessage = () => {
-  return (
-    <div className="p-6 bg-white rounded-xl shadow-2xl text-center transition duration-300 hover:shadow-3xl">
-      <h1 className="text-3xl sm:text-4xl font-extrabold text-blue-600 mb-4 transition transform hover:scale-105">
-        Hello everyone, I am learning React at ALX!
-      </h1>
-      <p className="text-lg text-gray-700 font-medium italic">
-        I am learning about JSX!
-      </p>
-    </div>
-  );
-};
-
-// The main App component, which includes the WelcomeMessage component.
-const App = () => {
-  return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
-      <div className="w-full max-w-xl">
-        <header className="mb-8 text-center">
-          <h2 className="text-4xl font-bold text-gray-800">
-            ALX React Component Integration
-          </h2>
-          <p className="text-gray-500 mt-2">
-            Demonstrating component structure and text updates.
-          </p>
-        </header>
-
-        {/* Integration of the WelcomeMessage component *
+      {/* Components Section */}
+      <div className="space-y-8">
+        <Header />
+        <MainContent />
         <WelcomeMessage />
+        <UserProfile name="Alice" age="25" bio="Loves hiking and photography." />
+        <Footer />
       </div>
     </div>
   );
-};
-**/
+}
 
-export default App
+export default App;
