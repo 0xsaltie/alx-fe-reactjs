@@ -27,8 +27,8 @@ setDescription(recipe.description);
 if (!recipe) return <p>Recipe not found.</p>;
 
 
-const handleSubmit = (e) => {
-e.preventDefault();
+const handleSubmit = (event) => {
+event.preventDefault();
 updateRecipe({ id, title, description });
 navigate(`/recipes/${id}`);
 };
