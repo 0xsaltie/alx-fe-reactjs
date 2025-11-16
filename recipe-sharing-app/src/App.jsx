@@ -3,6 +3,8 @@ import RecipeList from './components/RecipeList';
 import AddRecipeForm from './components/AddRecipeForm';
 import RecipeDetails from './components/RecipeDetails';
 import EditRecipeForm from './components/EditRecipeForm';
+import SearchBar from "./components/SearchBar";
+import RecipeList from "./components/RecipeList";
 
 
 function App() {
@@ -19,7 +21,10 @@ element={(
 <div>
 <AddRecipeForm />
 <RecipeList />
+<SearchBar />
 </div>
+
+
 )}
 />
 
@@ -34,3 +39,4 @@ element={(
 
 
 export default App;
+

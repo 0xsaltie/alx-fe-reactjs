@@ -1,48 +1,30 @@
-import { useState } from 'react';
-import useRecipeStore from '../store/recipeStore';
+import { Link } from "react-router-dom";
+import useRecipeStore from "../store/recipeStore";
 
+const RecipeList = () => {
+  const filteredRecipes = useRecipeStore((state) => state.filteredRecipes);
+  const recipes = useRecipeStore((state) => state.recipes);
+  const searchTerm = useRecipeStore((state) => state.searchTerm);
 
-const AddRecipeForm = () => {
-const addRecipe = useRecipeStore((state) => state.addRecipe);
+  const list = searchTerm ? filteredRecipes : recipes;
 
+  return (
+    <div>
+      <h2>Recipes</h2>
 
-const [title, setTitle] = useState('');
-const [description, setDescription] = useState('');
-
-
-const handleSubmit = (e) => {
-e.preventDefault();
-const newRecipe = { id: Date.now().toString(), title, description };
-addRecipe(newRecipe);
-setTitle('');
-setDescription('');
+      {list.length === 0 ? (
+        <p>No recipes found.</p>
+      ) : (
+        <ul>
+          {list.map((recipe) => (
+            <li key={recipe.id}>
+              <Link to={`/recipes/${recipe.id}`}>{recipe.title}</Link>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
 };
 
-
-return (
-<form onSubmit={handleSubmit} style={{ marginBottom: '2rem' }}>
-<input
-type="text"
-value={title}
-onChange={(e) => setTitle(e.target.value)}
-placeholder="Recipe Title"
-required
-/>
-
-
-<textarea
-value={description}
-onChange={(e) => setDescription(e.target.value)}
-placeholder="Description"
-required
-/>
-
-
-<button type="submit">Add Recipe</button>
-</form>
-);
-};
-
-
-export default AddRecipeForm;
-
+export default RecipeList;
