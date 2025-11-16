@@ -5,6 +5,9 @@ import RecipeDetails from './components/RecipeDetails';
 import EditRecipeForm from './components/EditRecipeForm';
 import SearchBar from "./components/SearchBar";
 import RecipeList from "./components/RecipeList";
+import FavoritesList from "./components/FavoritesList";
+import RecommendationsList from "./components/RecommendationsList";
+
 
 
 function App() {
@@ -22,6 +25,8 @@ element={(
 <AddRecipeForm />
 <RecipeList />
 <SearchBar />
+<RecommendationsList />
+<FavoritesList />
 </div>
 
 
