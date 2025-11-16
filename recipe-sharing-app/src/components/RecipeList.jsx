@@ -1,20 +1,48 @@
- // RecipeList component
-  import { useRecipeStore } from './recipeStore';
+import { useState } from 'react';
+import useRecipeStore from '../store/recipeStore';
 
-  const RecipeList = () => {
-    const recipes = useRecipeStore(state => state.recipes);
 
-    return (
-      <div>
-        {recipes.map(recipe => (
-          <div key={recipe.id}>
-            <h3>{recipe.title}</h3>
-            <p>{recipe.description}</p>
-          </div>
-        ))}
-      </div>
-    );
-  };
+const AddRecipeForm = () => {
+const addRecipe = useRecipeStore((state) => state.addRecipe);
 
-export default RecipeList;
+
+const [title, setTitle] = useState('');
+const [description, setDescription] = useState('');
+
+
+const handleSubmit = (e) => {
+e.preventDefault();
+const newRecipe = { id: Date.now().toString(), title, description };
+addRecipe(newRecipe);
+setTitle('');
+setDescription('');
+};
+
+
+return (
+<form onSubmit={handleSubmit} style={{ marginBottom: '2rem' }}>
+<input
+type="text"
+value={title}
+onChange={(e) => setTitle(e.target.value)}
+placeholder="Recipe Title"
+required
+/>
+
+
+<textarea
+value={description}
+onChange={(e) => setDescription(e.target.value)}
+placeholder="Description"
+required
+/>
+
+
+<button type="submit">Add Recipe</button>
+</form>
+);
+};
+
+
+export default AddRecipeForm;
 
