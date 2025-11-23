@@ -1,24 +1,25 @@
 import { useState } from "react";
-import { fetchUserData } from "../services/githubService";
+import { searchUsers } from "../services/githubService";
 
 function Search() {
   const [username, setUsername] = useState("");
-  const [userData, setUserData] = useState(null);
+  const [location, setLocation] = useState("");
+  const [minRepos, setMinRepos] = useState("");
+  const [results, setResults] = useState([]);
+  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!username.trim()) return;
-
-    setLoading(true);
     setError("");
-    setUserData(null);
+    setLoading(true);
+    setResults([]);
 
     try {
-      const data = await fetchUserData(username);
-      setUserData(data);
+      const data = await searchUsers({ username, location, minRepos, page: 1 });
+      setResults(data.items);
+      setPage(1);
     } catch (err) {
       setError("Looks like we cant find the user");
     }
@@ -26,45 +27,99 @@ function Search() {
     setLoading(false);
   };
 
+  const loadMore = async () => {
+    const nextPage = page + 1;
+    setLoading(true);
+
+    const data = await searchUsers({
+      username,
+      location,
+      minRepos,
+      page: nextPage
+    });
+
+    setResults((prev) => [...prev, ...data.items]);
+    setPage(nextPage);
+    setLoading(false);
+  };
+
   return (
-    <div style={{ marginTop: "20px" }}>
+    <div className="max-w-xl mx-auto mt-8 p-4 bg-white shadow rounded-lg">
+      <h2 className="text-xl font-bold mb-4">Advanced GitHub User Search</h2>
+
       {/* Search Form */}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="space-y-4">
         <input
           type="text"
-          placeholder="Search GitHub username..."
+          placeholder="Username (optional)"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          style={{
-            padding: "10px",
-            width: "250px",
-            marginRight: "10px",
-          }}
+          className="w-full px-3 py-2 border rounded"
         />
-        <button type="submit" style={{ padding: "10px 20px" }}>
+
+        <input
+          type="text"
+          placeholder="Location (optional)"
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
+          className="w-full px-3 py-2 border rounded"
+        />
+
+        <input
+          type="number"
+          placeholder="Minimum Repositories (optional)"
+          value={minRepos}
+          onChange={(e) => setMinRepos(e.target.value)}
+          className="w-full px-3 py-2 border rounded"
+        />
+
+        <button
+          type="submit"
+          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+        >
           Search
         </button>
       </form>
 
       {/* Loading */}
-      {loading && <p>Loading...</p>}
+      {loading && <p className="text-center mt-4">Loading...</p>}
 
       {/* Error */}
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {error && <p className="text-red-500 mt-4">{error}</p>}
 
-      {/* User Result */}
-      {userData && (
-        <div style={{ marginTop: "20px" }}>
-          <img
-            src={userData.avatar_url}
-            alt="Avatar"
-            width="100"
-            style={{ borderRadius: "50%" }}
-          />
-          <h2>{userData.name || userData.login}</h2>
-          <a href={userData.html_url} target="_blank">
-            View Profile
-          </a>
+      {/* Results */}
+      {results.length > 0 && (
+        <div className="mt-6 space-y-4">
+          {results.map((user) => (
+            <div
+              key={user.id}
+              className="flex items-center gap-4 p-3 border rounded"
+            >
+              <img
+                src={user.avatar_url}
+                alt="avatar"
+                className="w-16 h-16 rounded-full"
+              />
+              <div>
+                <h3 className="font-bold">{user.login}</h3>
+                <a
+                  href={user.html_url}
+                  target="_blank"
+                  className="text-blue-600 underline"
+                >
+                  View Profile
+                </a>
+              </div>
+            </div>
+          ))}
+
+          {/* Load More */}
+          <button
+            onClick={loadMore}
+            className="w-full bg-gray-800 text-white py-2 rounded hover:bg-black"
+          >
+            Load More
+          </button>
         </div>
       )}
     </div>
