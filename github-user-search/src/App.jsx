@@ -1,5 +1,5 @@
 import React from "react";
-import SearchBar from "./components/SearchBar";
+import Search from "./components/Search";
 
 
 function App() {
@@ -7,6 +7,8 @@ function App() {
     <div>
       <h1>GitHub User Search</h1>
       <p>Application setup is working!</p>
+      <h1 style={{ padding: "20px" }}>GitHub User Search</h1>
+      <Search />
     </div>
   );
 }
