@@ -1,8 +1,12 @@
-export default function App() {
+import HomePage from "./components/Homepage";
+
+function App() {
   return (
-    <div className="min-h-screen bg-red-500 text-white text-4xl flex items-center justify-center">
-      TAILWIND TEST
+    <div className="bg-gray-50 min-h-screen">
+      <HomePage />
     </div>
   );
 }
+
+export default App;
 
