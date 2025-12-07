@@ -1,41 +1,37 @@
 import { useEffect, useState } from "react";
-import data from "../data.json"; // importing mock data
+import { Link } from "react-router-dom";  
+import data from "../data.json";
 
-function HomePage() {
+export default function HomePage() {
   const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
-    setRecipes(data); // load mock data
+    setRecipes(data); // Load mock JSON data
   }, []);
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
-      <h1 className="text-3xl font-bold text-center mb-8">Recipe Sharing Platform</h1>
+      <h1 className="text-3xl font-bold mb-6 text-center">Recipes</h1>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* Responsive grid of recipe cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {recipes.map((recipe) => (
-          <div
+          <Link
             key={recipe.id}
-            className="bg-white shadow-md rounded-xl overflow-hidden hover:shadow-xl hover:scale-105 transition transform duration-300"
+            to={`/recipe/${recipe.id}`}   // ✅ LINK TO DETAIL PAGE
+            className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow p-4 cursor-pointer"
           >
-            <img src={recipe.image} alt={recipe.title} className="w-full h-48 object-cover" />
+            <img
+              src={recipe.image}
+              alt={recipe.title}
+              className="rounded-md w-full h-40 object-cover mb-4"
+            />
 
-            <div className="p-4">
-              <h2 className="text-xl font-semibold mb-2">{recipe.title}</h2>
-              <p className="text-gray-600 text-sm mb-4">{recipe.summary}</p>
-
-              <a
-                href={`/recipe/${recipe.id}`}
-                className="text-blue-500 font-medium hover:underline"
-              >
-                View Details →
-              </a>
-            </div>
-          </div>
+            <h2 className="text-xl font-semibold">{recipe.title}</h2>
+            <p className="text-gray-600 mt-2">{recipe.summary}</p>
+          </Link>
         ))}
       </div>
     </div>
   );
 }
-
-export default HomePage;
