@@ -1,57 +1,39 @@
 import { useState } from "react";
 
 const RegistrationForm = () => {
-  const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-  });
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const [errors, setErrors] = useState("");
+  const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const validate = () => {
-    if (!formData.username || !formData.email || !formData.password) {
-      return "All fields are required.";
-    }
-    return "";
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const validationError = validate();
-    if (validationError) {
-      setErrors(validationError);
+    if (!username || !email || !password) {
+      setError("All fields are required");
       return;
     }
 
-    setErrors("");
+    setError("");
     setSuccess("");
 
-    // Mock API call
     try {
       await fetch("https://jsonplaceholder.typicode.com/posts", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ username, email, password }),
       });
 
       setSuccess("User registered successfully!");
-      setFormData({ username: "", email: "", password: "" });
-    } catch (error) {
-      setErrors("Registration failed.");
+      setUsername("");
+      setEmail("");
+      setPassword("");
+    } catch (err) {
+      setError("Registration failed");
     }
   };
 
@@ -59,16 +41,15 @@ const RegistrationForm = () => {
     <form onSubmit={handleSubmit}>
       <h2>Register (Controlled Components)</h2>
 
-      {errors && <p style={{ color: "red" }}>{errors}</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
       {success && <p style={{ color: "green" }}>{success}</p>}
 
       <div>
         <label>Username</label>
         <input
           type="text"
-          name="username"
-          value={formData.username}
-          onChange={handleChange}
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
         />
       </div>
 
@@ -76,9 +57,8 @@ const RegistrationForm = () => {
         <label>Email</label>
         <input
           type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
       </div>
 
@@ -86,9 +66,8 @@ const RegistrationForm = () => {
         <label>Password</label>
         <input
           type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
       </div>
 
